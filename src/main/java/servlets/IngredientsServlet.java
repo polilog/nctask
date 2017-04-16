@@ -1,28 +1,21 @@
 package servlets;
 
-import model.ingredients.Ingredient;
-import model.main.Cook;
-import model.main.FruitSaladCook;
-import model.main.VegetableSaladCook;
-import model.salads.Salad;
-
+import dao.JDBCUtils;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
+import java.sql.Connection;
 
 @WebServlet(urlPatterns = "/ingredients", loadOnStartup = 0)
 public class IngredientsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Salad> salads = (List<Salad>)request.getServletContext().getAttribute("salads");
-
         int id = Integer.parseInt(request.getParameter("id"));
-        List<Ingredient> ingredients = salads.get(id - 1).getIngredients();
-        request.setAttribute("ingredients", ingredients);
+        Connection conn = JDBCUtils.getConnectionPool().checkOut();
+        request.setAttribute("ingredients", JDBCUtils.getIngredients(conn, id));
         request.getRequestDispatcher("/ingredients.jsp").forward(request, response);
     }
 
