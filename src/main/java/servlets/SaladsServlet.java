@@ -22,6 +22,9 @@ public class SaladsServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        super.doPost(request, response);
+        String[] id = request.getParameterValues("delete");
+        Connection conn = JDBCUtils.getConnectionPool().checkOut();
+        JDBCUtils.deleteSalads(conn, id);
+        doGet(request,response);
     }
 }

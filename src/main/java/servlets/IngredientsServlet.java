@@ -16,12 +16,13 @@ public class IngredientsServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         Connection conn = JDBCUtils.getConnectionPool().checkOut();
         request.setAttribute("ingredients", JDBCUtils.getIngredients(conn, id));
+        request.setAttribute("id", id);
         request.getRequestDispatcher("/ingredients.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        super.doPost(request, response);
+        doGet(request, response);
     }
 }
 

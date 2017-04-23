@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Salad {
+	private int id;
 	private String name;
 	private List<Ingredient> ingredients = new ArrayList<>();
 	
@@ -19,6 +20,10 @@ public class Salad {
 	public Salad(String name) {
 		this.name = name;
 	}
+
+	public void setId(int id) {this.id = id; }
+
+	public int getId() {return id; }
 
 	public String getName() {
 		return name;

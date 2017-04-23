@@ -61,18 +61,20 @@ public class JDBCUtils {
             ResultSet rs = pstm.executeQuery();
 
             while (rs.next()) {
-
+                int id = rs.getInt("id");
                 String type = rs.getString("type");
                 String name = rs.getString("name");
 
                 try {
                     Class c = Class.forName("model.salads." + type);
                     Salad salad = (Salad) c.newInstance();
+                    salad.setId(id);
                     list.add(salad);
                 }
                 catch (ClassNotFoundException e)
                 {
                     Salad salad = new Salad(name);
+                    salad.setId(id);
                     list.add(salad);
                 }
                 catch (InstantiationException e) {
@@ -90,6 +92,40 @@ public class JDBCUtils {
 
 
         return list;
+    }
+
+    public static void deleteSalads(Connection conn, String[] list)
+    {
+        String sql = "delete from salads where id = ?";
+        PreparedStatement pstm = null;
+        if(list != null && list.length > 0) {
+            for (String id : list) {
+                try {
+                    pstm = conn.prepareStatement(sql);
+                    pstm.setString(1, id);
+                    pstm.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static void addIngredient(Connection conn, Ingredient ingredient, int id)
+    {
+        String sql = "insert into ingredients (type, name, caloricity, weight, salad_id) values(?,?,?,?,?)";
+        PreparedStatement pstm = null;
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, ingredient.getName());
+            pstm.setString(2,ingredient.getName());
+            pstm.setDouble(3, ingredient.getCaloricity());
+            pstm.setDouble(4, ingredient.getWeight());
+            pstm.setInt(5,id);
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public  static Collection<Ingredient> getIngredients(Connection conn, int id) {

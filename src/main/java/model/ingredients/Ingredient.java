@@ -1,6 +1,7 @@
 package model.ingredients;
 
 public class Ingredient {
+	private int id;
 	private String name;
 	private double caloricity;
 	private double weight;
@@ -24,7 +25,11 @@ public class Ingredient {
 		this.caloricity = caloricity;
 		this.weight = weight;
 	}
-	
+
+	public void setId(int id) {this.id = id;}
+
+	public int getId() {return id;}
+
 	public String getName() {
 		return name;
 	}

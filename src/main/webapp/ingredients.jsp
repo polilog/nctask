@@ -34,6 +34,10 @@
 <script src="<c:url value="resources/js/lib/jquery-1.12.4.js"/>"></script>
 <script src="<c:url value="resources/js/lib/jquery.dataTables.min.js"/>"></script>
 <script src="<c:url value="resources/js/ingredients.js"/>"></script>
+<form method="get" action="/add">
+    <input type="submit" value="Add">
+    <input type="hidden" name="id" value="${id}">
+</form>
 </body>
 </html>
 
